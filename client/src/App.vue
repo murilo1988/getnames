@@ -2,9 +2,8 @@
   <div>
     <div id="slogan">
       <div class="text-center t">
-        <h1>
-          getName(s) <span class="material-symbols-outlined"> done </span>
-        </h1>
+        <h1>getName(s)</h1>
+        <div></div>
 
         <br />
         <h5 class="text-secondary">
@@ -31,10 +30,10 @@
                   >
                     {{ prefix }}
                     <button
-                      class="mt-1 material-symbols-outlined badge bg-danger"
+                      class="badge btn bg-danger"
                       @click="deletePrefix(prefix)"
                     >
-                      delete
+                      <fa icon="trash-can" />
                     </button>
                   </li>
                 </ul>
@@ -49,9 +48,7 @@
                   />
                   <div class="input-group-append">
                     <button class="btn btn-primary" @click="addPrefix(prefix)">
-                      <span class="pt-1 text-material-symbols-outlined">
-                        add
-                      </span>
+                      <fa icon="plus" />
                     </button>
                   </div>
                 </div>
@@ -73,10 +70,10 @@
                     {{ sufix }}
 
                     <button
-                      class="mt-1 material-symbols-outlined badge bg-danger"
-                      @click="deleteSufix(sufix)"
+                      class="badge btn bg-danger"
+                      @click="deletePrefix(sufix)"
                     >
-                      delete
+                      <fa icon="trash-can" />
                     </button>
                   </li>
                 </ul>
@@ -91,9 +88,7 @@
                   />
                   <div class="input-group-append">
                     <button class="btn btn-primary" @click="addSufix(sufix)">
-                      <span class="pt-1 text-material-symbols-outlined">
-                        add
-                      </span>
+                      <fa icon="plus" />
                     </button>
                   </div>
                 </div>
@@ -113,7 +108,16 @@
                 v-for="domain in domains"
                 :key="domain"
               >
-                {{ domain }}
+                <div class="row">
+                  <div class="col-md">
+                    {{ domain }}
+                  </div>
+                  <div class="col-md">
+                    <button class="btn badge btn-success">
+                      <fa icon="cart-shopping" />
+                    </button>
+                  </div>
+                </div>
               </li>
             </ul>
             <br />
@@ -125,7 +129,6 @@
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css';
 export default {
   name: 'app',
   data: () => {
@@ -134,36 +137,34 @@ export default {
       sufix: '',
       prefixes: ['Moon', 'Ride'],
       sufixes: ['Forest', 'Hub'],
-      domains: [],
     };
   },
   methods: {
     addPrefix(prefix) {
       this.prefixes.push(prefix);
       this.prefix = '';
-      this.generate();
     },
     deletePrefix(prefix) {
       this.prefixes.splice(this.prefixes.indexOf(prefix), 1);
-      this.generate();
     },
     addSufix(sufix) {
       this.sufixes.push(sufix);
       this.sufix = '';
-      this.generate();
     },
     deleteSufix(sufix) {
       this.sufixes.splice(this.prefixes.indexOf(sufix), 1);
-      this.generate();
     },
-    generate() {
-      this.domains = [];
+  },
+  computed: {
+    domains() {
+      const domains = [];
       for (const prefix of this.prefixes) {
         for (const sufix of this.sufixes) {
-          this.domains.push(prefix + sufix);
-          this.domains.push(sufix + prefix);
+          domains.push(prefix + sufix);
+          domains.push(sufix + prefix);
         }
       }
+      return domains;
     },
   },
 };
