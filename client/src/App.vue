@@ -3,7 +3,6 @@
     <div id="slogan">
       <div class="text-center t">
         <h1>getName(s)</h1>
-        <div></div>
 
         <br />
         <h5 class="text-secondary">
@@ -15,90 +14,26 @@
       <div class="container">
         <div class="row">
           <div class="col-md">
-            <h5>
-              Prefixos
-              <span class="badge bg-primary">{{ prefixes.length }}</span>
-            </h5>
-
-            <div class="card">
-              <div class="card-body">
-                <ul class="list-group">
-                  <li
-                    class="list-group-item d-flex justify-content-between"
-                    v-for="prefix in prefixes"
-                    :key="prefix"
-                  >
-                    {{ prefix }}
-                    <button
-                      class="badge btn bg-danger"
-                      @click="deletePrefix(prefix)"
-                    >
-                      <fa icon="trash-can" />
-                    </button>
-                  </li>
-                </ul>
-                <br />
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Digite o prefixo"
-                    v-model="prefix"
-                    @keyup.enter="addPrefix(prefix)"
-                  />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" @click="addPrefix(prefix)">
-                      <fa icon="plus" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AppItemList
+              title="Prefixos"
+              v-bind:items="prefixes"
+              v-on:addItem="addPrefix"
+              v-on:deleteItem="deletePrefix"
+            ></AppItemList>
           </div>
           <div class="col-md">
-            <h5>
-              Sufixos <span class="badge bg-primary">{{ sufixes.length }}</span>
-            </h5>
-            <div class="card">
-              <div class="card-body">
-                <ul class="list-group">
-                  <li
-                    class="list-group-item d-flex justify-content-between"
-                    v-for="sufix in sufixes"
-                    :key="sufix"
-                  >
-                    {{ sufix }}
-
-                    <button
-                      class="badge btn bg-danger"
-                      @click="deletePrefix(sufix)"
-                    >
-                      <fa icon="trash-can" />
-                    </button>
-                  </li>
-                </ul>
-                <br />
-                <div class="input-group">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Digite o sufixo"
-                    v-model="sufix"
-                    @keyup.enter="addSufix(sufix)"
-                  />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" @click="addSufix(sufix)">
-                      <fa icon="plus" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AppItemList
+              title="Sufixos"
+              v-bind:items="sufixes"
+              v-on:addItem="addSufix"
+              v-on:deleteItem="deleteSufix"
+            ></AppItemList>
           </div>
         </div>
         <br />
         <h5>
-          getName(s) <span class="badge bg-primary">{{ domains.length }}</span>
+          getName(s)
+          <span class="badge bg-primary">{{ domains.length }}</span>
         </h5>
         <div class="card">
           <div class="mt-3 card-body">
@@ -133,8 +68,13 @@
 </template>
 
 <script>
+import AppItemList from './components/AppItemList.vue';
+
 export default {
   name: 'app',
+  components: {
+    AppItemList,
+  },
   data: () => {
     return {
       prefix: '',
