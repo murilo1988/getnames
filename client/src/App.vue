@@ -106,16 +106,20 @@
               <li
                 class="list-group-item"
                 v-for="domain in domains"
-                :key="domain"
+                :key="domain.name"
               >
                 <div class="row">
                   <div class="col-md">
-                    {{ domain }}
+                    {{ domain.name }}
                   </div>
-                  <div class="col-md">
-                    <button class="btn badge btn-success">
+                  <div class="col-md text-end">
+                    <a
+                      :href="domain.checkout"
+                      target="blank"
+                      class="btn badge btn-success"
+                    >
                       <fa icon="cart-shopping" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               </li>
@@ -160,8 +164,13 @@ export default {
       const domains = [];
       for (const prefix of this.prefixes) {
         for (const sufix of this.sufixes) {
-          domains.push(prefix + sufix);
-          domains.push(sufix + prefix);
+          const name = prefix + sufix;
+          const url = name.toLowerCase();
+          const checkout = `https://cart.hostgator.com.br/?pid=d&sld=${url}&tld=.com`;
+          domains.push({
+            name,
+            checkout,
+          });
         }
       }
       return domains;
