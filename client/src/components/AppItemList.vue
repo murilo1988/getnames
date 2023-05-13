@@ -11,10 +11,10 @@
           <li
             class="list-group-item d-flex justify-content-between"
             v-for="item in items"
-            :key="item.id"
+            v-bind:key="item.id"
           >
             {{ item.description }}
-            <button class="badge btn bg-danger" @click="deleteItem(item)">
+            <button class="badge btn bg-danger" v-on:click="deleteItem(item)">
               <fa icon="trash-can" />
             </button>
           </li>
@@ -26,10 +26,13 @@
             class="form-control"
             placeholder="Digite aqui"
             v-model="description"
-            @keyup.enter="addItem(type, description)"
+            v-on:keyup.enter="addItem(type, description)"
           />
           <div class="input-group-append">
-            <button class="btn btn-primary" @click="addItem(type, description)">
+            <button
+              class="btn btn-primary"
+              v-on:click="addItem(type, description)"
+            >
               <fa icon="plus" />
             </button>
           </div>

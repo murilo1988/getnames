@@ -7,7 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-import icons from '../fonawesome';
+import icons from '../fontawesome';
 
 library.add({ ...icons });
 createApp(app).component('fa', FontAwesomeIcon).mount('#app');

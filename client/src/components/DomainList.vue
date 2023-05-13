@@ -6,17 +6,17 @@
           title="Prefixos"
           type="prefix"
           v-bind:items="items.prefix"
-          @:addItem="addItem"
-          @:deleteItem="deleteItem"
+          v-on:addItem="addItem"
+          v-on:deleteItem="deleteItem"
         ></AppItemList>
       </div>
       <div class="col-md">
         <AppItemList
           title="Sufixos"
-          type="sufix"
-          v-bind:items="items.sufix"
-          @:addItem="addItem"
-          @:deleteItem="deleteItem"
+          type="suffix"
+          v-bind:items="items.suffix"
+          v-on:addItem="addItem"
+          v-on:deleteItem="deleteItem"
         ></AppItemList>
       </div>
     </div>
@@ -31,7 +31,7 @@
           <li
             class="list-group-item"
             v-for="domain in domains"
-            :key="domain.name"
+            v-bind:key="domain.name"
           >
             <div class="row row-cols-3">
               <div class="col-md text-start">
@@ -40,7 +40,7 @@
               <div class="col-md text-center">disponibilidade</div>
               <div class="col-md text-end">
                 <a
-                  :href="domain.checkout"
+                  v-bind:href="domain.checkout"
                   target="blank"
                   class="btn badge btn-success"
                 >
@@ -65,11 +65,11 @@ export default {
   components: {
     AppItemList,
   },
-  data: () => {
+  data: function () {
     return {
       items: {
         prefix: [],
-        sufix: [],
+        suffix: [],
       },
     };
   },
@@ -77,23 +77,24 @@ export default {
     addItem(item) {
       axios({
         url: 'http://localhost:4000',
-        methos: 'post',
+        method: 'post',
         data: {
           query: `
-                mutation($item:ItemInput){
-                    newItem: saveItem(item: $item){
-                        id
-                        type
-                        description
-                    }
-                }
-              `,
+						mutation ($item: ItemInput) {
+							newItem: saveItem(item: $item) {
+								id
+								type
+								description
+							}
+						}
+					`,
           variables: {
             item,
           },
         },
       }).then((response) => {
         const query = response.data;
+
         const newItem = query.data.newItem;
         this.items[item.type].push(newItem);
       });
@@ -145,8 +146,8 @@ export default {
       console.log('generating domains...');
       const domains = [];
       for (const prefix of this.items.prefix) {
-        for (const sufix of this.items.sufix) {
-          const name = prefix.description + sufix.description;
+        for (const suffix of this.items.suffix) {
+          const name = prefix.description + suffix.description;
           const url = name.toLowerCase();
           const checkout = `https://checkout.hostgator.com.br/?a=add&sld=${url}&tld=.com.br`;
           domains.push({
@@ -160,7 +161,7 @@ export default {
   },
   created() {
     this.getItems('prefix');
-    this.getItems('sufix');
+    this.getItems('suffix');
   },
 };
 </script>
