@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5>
-      items
+      {{ title }}
       <span class="badge bg-primary">{{ items.length }}</span>
     </h5>
 
@@ -41,7 +41,7 @@
 <script>
 export default {
   name: 'AppItemList',
-  props: ['items'],
+  props: ['title', 'items'],
   data() {
     return {
       item: '',
