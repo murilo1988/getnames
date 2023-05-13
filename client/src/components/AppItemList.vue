@@ -11,9 +11,9 @@
           <li
             class="list-group-item d-flex justify-content-between"
             v-for="item in items"
-            :key="item"
+            :key="item.id"
           >
-            {{ item }}
+            {{ item.description }}
             <button class="badge btn bg-danger" @click="deleteItem(item)">
               <fa icon="trash-can" />
             </button>
@@ -24,12 +24,12 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Digite o itemso"
-            v-model="item"
-            @keyup.enter="addItem(item)"
+            placeholder="Digite aqui"
+            v-model="description"
+            @keyup.enter="addItem(type, description)"
           />
           <div class="input-group-append">
-            <button class="btn btn-primary" @click="addItem(item)">
+            <button class="btn btn-primary" @click="addItem(type, description)">
               <fa icon="plus" />
             </button>
           </div>
@@ -41,16 +41,19 @@
 <script>
 export default {
   name: 'AppItemList',
-  props: ['title', 'items'],
+  props: ['title', 'type', 'items'],
   data() {
     return {
-      item: '',
+      description: '',
     };
   },
   methods: {
-    addItem(item) {
-      this.$emit('addItem', item);
-      this.item = '';
+    addItem(type, description) {
+      this.$emit('addItem', {
+        type,
+        description,
+      });
+      this.description = '';
     },
     deleteItem(item) {
       this.$emit('deleteItem', item);
